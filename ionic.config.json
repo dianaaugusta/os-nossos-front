@@ -1,0 +1,7 @@
+{
+  "name": "osNossosApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
