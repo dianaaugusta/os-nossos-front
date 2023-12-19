@@ -3,9 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiKey: '', // <-- Enter your own key here!'
+  baseUrl: ' http://127.0.0.1:8000/tasks',
+  images: 'http://image.tmdb.org/t/p',
 };
 
+export const options = {
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*' // Definindo o cabeçalho CORS
+  }
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

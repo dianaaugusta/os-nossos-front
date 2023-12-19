@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar class=".ion-padding">
+    <ion-row class="ion-justify-content-between ion-padding" >
+      <ion-img src="../../../assets/icon/logo.jpeg.jpeg"></ion-img>
+      <ion-label class="ion-text-wrap">
+        <h1>Os Nossos</h1> 
+        <h3>Para os nossos atarefados!</h3>
+      </ion-label>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+ <ion-header>
+  </ion-header>
+  <ion-content class="ion-padding white">
+    <ion-button id="open-modal" expand="block">Add Task</ion-button>
+    <!--<p>{{ message }}</p>-->
+    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Add Task</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+            <ion-label position="stacked">Due Date</ion-label>
+            <ion-input type="date" [(ngModel)]="dueDate"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Description</ion-label>
+            <ion-textarea rows="4" [(ngModel)]="description"></ion-textarea>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+  </ion-content>
+
+  
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let item of result" [routerLink]="[item.id]">
+      <ion-avatar slot="start">
+        -
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ item.description }}</h3>
+        <p>{{ item.dueDate | date:'dd-MM-yy' }}</p>
+      </ion-label>
+      <ion-icon (click)="deleteTask(item.id)" name="trash-outline">Delete</ion-icon>
+      <!--<ion-button (click)="deleteTask(item.id)"> Delete </ion-button>-->
+      <ion-icon (click)="setOpen(true)" name="pencil-outline">Edit</ion-icon>
+      <!--<ion-button expand="block" (click)="setOpen(true)">Open</ion-button>-->
+
+      <ion-badge slot="end"> {{ item.vote_average }} </ion-badge>
+
+      <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+          <ion-header>
+            <ion-toolbar>
+              <ion-title>Edit Task</ion-title>
+              <ion-buttons slot="end">
+                <ion-button (click)="setOpen(false)">Close</ion-button>
+                <ion-button (click)="updateTask(item.id)" [strong]="true">Confirm</ion-button>
+              </ion-buttons>
+            </ion-toolbar>
+          </ion-header>
+          <ion-content class="ion-padding">
+            <ion-item>
+              <ion-label position="stacked">Due Date</ion-label>
+              <ion-input type="date" [(ngModel)]="dueDate"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Description</ion-label>
+              <ion-textarea rows="4" [(ngModel)]="description"></ion-textarea>
+            </ion-item>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
+
+    </ion-item>
+  </ion-list>
+  
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."> </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
