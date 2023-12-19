@@ -22,7 +22,7 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
  
-  getTopRatedMovies(page = 1): Observable<ApiResult> {
+  getTasks(page = 1): Observable<ApiResult> {
     return this.http.get<ApiResult>(
       `${environment.baseUrl}`
     );

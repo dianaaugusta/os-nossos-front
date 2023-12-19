@@ -28,17 +28,17 @@ export class TasksPage implements OnInit {
   ) {}
  
   ngOnInit() {
-    this.loadMovies();
+    this.loadTasks();
   }
  
-  async loadMovies(event?: InfiniteScrollCustomEvent) {
+  async loadTasks(event?: InfiniteScrollCustomEvent) {
     const loading = await this.loadingCtrl.create({
       message: 'Loading..',
       spinner: 'bubbles',
     });
     await loading.present();
  
-    this.taskService.getTopRatedMovies(this.currentPage).subscribe(
+    this.taskService.getTasks(this.currentPage).subscribe(
       (res) => {
         loading.dismiss();
         this.result.push(...res.data);
@@ -55,7 +55,7 @@ export class TasksPage implements OnInit {
     );
   }
 
-  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  message = '';
   name!: string;
 
   cancel() {
@@ -71,29 +71,28 @@ export class TasksPage implements OnInit {
   
       this.taskService.postTask(formData).subscribe(
         (response) => {
-          console.log('Tarefa criada com sucesso!', response);
           this.modal.dismiss();
           this.result.push(response); 
         },
         (error) => {
-          console.error('Erro ao criar a tarefa:', error);
+          console.error('E:', error);
         }
       );
     } else {
-      console.error('Por favor, preencha todos os campos.');
+      console.error('Please fill all the fields');
     }
   }
   
   deleteTask(taskId: number): void {
     this.taskService.deleteTask(taskId).subscribe(
       () => {
-        console.log('Tarefa excluída com sucesso!', taskId);
+        console.log('Task deleted successfully!', taskId);
   
         // Remover a tarefa da lista pelo ID
         this.result = this.result.filter((task) => task.id !== taskId);
       },
       (error) => {
-        console.error('Erro ao excluir a tarefa:', error);
+        console.error('There was an error deleting the task:', error);
       }
     );
   }
@@ -124,7 +123,7 @@ export class TasksPage implements OnInit {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
+      
     }
   }
 
@@ -134,6 +133,6 @@ export class TasksPage implements OnInit {
  
   loadMore(event: InfiniteScrollCustomEvent) {
     this.currentPage++;
-    this.loadMovies(event);
+    this.loadTasks(event);
   }
 }
